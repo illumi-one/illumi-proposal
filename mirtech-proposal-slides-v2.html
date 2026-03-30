@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mirtech x illumi</title>
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --off-white: #f1f1f1;
+      --solar-yellow: #eed80c;
+      --sky-cyan: #58c8cf;
+      --deep-teal: #2ea7ad;
+      --midnight-teal: #0d424a;
+      --slate-navy: #2d3142;
+      --abyss: #084c61;
+      --mist: #86b2b5;
+      --sage: #5e9695;
+
+      --title-size: clamp(1.8rem, 4.5vw, 3.8rem);
+      --h2-size: clamp(1.2rem, 2.8vw, 2.2rem);
+      --h3-size: clamp(0.95rem, 1.9vw, 1.45rem);
+      --body-size: clamp(0.78rem, 1.35vw, 1.02rem);
+      --small-size: clamp(0.64rem, 0.95vw, 0.82rem);
+      --slide-padding: clamp(2rem, 5vw, 5rem);
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      height: 100%;
+      font-family: 'Ubuntu Sans', Arial, sans-serif;
+      overflow-x: hidden;
+      background: var(--midnight-teal);
+    }
+
+    html {
+      scroll-snap-type: y mandatory;
+      scroll-behavior: smooth;
+    }
+
+    .slide {
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+      overflow: hidden;
+      scroll-snap-align: start;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+    }
+
+    .slide-inner {
+      padding: var(--slide-padding);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      height: 100%;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Nav */
+    .nav-dots {
+      position: fixed;
+      right: clamp(0.8rem, 1.8vw, 1.4rem);
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+      z-index: 100;
+    }
+
+    .nav-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.22);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+    }
+
+    .nav-dot.active {
+      background: var(--solar-yellow);
+      transform: scale(1.5);
+    }
+
+    .slide-counter {
+      position: fixed;
+      bottom: 1rem;
+      right: 1.2rem;
+      font-size: var(--small-size);
+      color: rgba(255, 255, 255, 0.28);
+      z-index: 100;
+      font-weight: 300;
+    }
+
+    /* Reveals */
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1), transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .visible .reveal {
+      opacity: 1;
+      transform: none;
+    }
+
+    .d1 {
+      transition-delay: 0.08s;
+    }
+
+    .d2 {
+      transition-delay: 0.18s;
+    }
+
+    .d3 {
+      transition-delay: 0.28s;
+    }
+
+    .d4 {
+      transition-delay: 0.38s;
+    }
+
+    .d5 {
+      transition-delay: 0.48s;
+    }
+
+    .d6 {
+      transition-delay: 0.58s;
+    }
+
+    .d7 {
+      transition-delay: 0.68s;
+    }
+
+    /* Shared type */
+    .eyebrow {
+      font-size: var(--small-size);
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--deep-teal);
+      margin-bottom: clamp(0.5rem, 1.2vh, 1rem);
+    }
+
+    .eyebrow-light {
+      color: var(--sky-cyan);
+    }
+
+    .eyebrow-yellow {
+      color: var(--solar-yellow);
+    }
+
+    .heading-dark {
+      font-size: var(--h2-size);
+      font-weight: 700;
+      color: var(--midnight-teal);
+      line-height: 1.18;
+      margin-bottom: clamp(0.8rem, 2vh, 1.8rem);
+    }
+
+    .heading-light {
+      font-size: var(--h2-size);
+      font-weight: 700;
+      color: var(--off-white);
+      line-height: 1.18;
+      margin-bottom: clamp(0.8rem, 2vh, 1.8rem);
+    }
+
+    .heading-light em,
+    .heading-dark em {
+      font-style: normal;
+      color: var(--solar-yellow);
+    }
+
+    .heading-dark em {
+      color: var(--deep-teal);
+    }
+
+    /* ===== SLIDE 1: COVER ===== */
+    #s1 {
+      background: var(--midnight-teal);
+    }
+
+    #s1::before {
+      content: '';
+      position: absolute;
+      top: -15%;
+      right: -8%;
+      width: 52vw;
+      height: 52vw;
+      max-width: 580px;
+      max-height: 580px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(46, 167, 173, 0.16) 0%, transparent 68%);
+    }
+
+    #s1::after {
+      content: '';
+      position: absolute;
+      bottom: -18%;
+      left: -6%;
+      width: 38vw;
+      height: 38vw;
+      max-width: 380px;
+      max-height: 380px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(238, 216, 12, 0.07) 0%, transparent 70%);
+    }
+
+    .cover-lockup {
+      max-width: 680px;
+    }
+
+    .cover-title {
+      font-size: var(--title-size);
+      font-weight: 700;
+      color: var(--off-white);
+      line-height: 1.08;
+      margin-bottom: 0.3em;
+    }
+
+    .cover-title span {
+      color: var(--solar-yellow);
+    }
+
+    .cover-sub {
+      font-size: var(--h3-size);
+      color: var(--mist);
+      font-weight: 300;
+      margin-bottom: clamp(1.2rem, 3vh, 2.5rem);
+      max-width: 480px;
+    }
+
+    .cover-rule {
+      width: 44px;
+      height: 3px;
+      background: var(--solar-yellow);
+      margin-bottom: clamp(1rem, 2.5vh, 2rem);
+    }
+
+    .cover-meta {
+      display: flex;
+      gap: clamp(1.5rem, 4vw, 3rem);
+      flex-wrap: wrap;
+    }
+
+    .cover-meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.18rem;
+    }
+
+    .cml {
+      font-size: var(--small-size);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--sage);
+    }
+
+    .cmv {
+      font-size: var(--body-size);
+      color: var(--off-white);
+    }
+
+    /* ===== SLIDE 2: STAGE OUTLINE TABLE ===== */
+    #s2 {
+      background: var(--off-white);
+    }
+
+    .outline-table {
+      width: 100%;
+      max-width: 860px;
+      border-collapse: collapse;
+      margin-top: clamp(0.6rem, 1.8vh, 1.4rem);
+    }
+
+    .outline-table thead tr th {
+      background: var(--midnight-teal);
+      color: var(--off-white);
+      font-size: var(--small-size);
+      font-weight: 600;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      padding: clamp(0.45rem, 1vh, 0.8rem) clamp(0.7rem, 1.4vw, 1.1rem);
+      text-align: left;
+    }
+
+    .outline-table thead tr th:first-child {
+      border-radius: 8px 0 0 0;
+      width: 18%;
+    }
+
+    .outline-table thead tr th:last-child {
+      border-radius: 0 8px 0 0;
+    }
+
+    .outline-table tbody tr td {
+      font-size: var(--body-size);
+      color: var(--slate-navy);
+      padding: clamp(0.45rem, 1.1vh, 0.85rem) clamp(0.7rem, 1.4vw, 1.1rem);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+      vertical-align: middle;
+      line-height: 1.45;
+    }
+
+    .outline-table tbody tr:nth-child(even) td {
+      background: rgba(46, 167, 173, 0.05);
+    }
+
+    .outline-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    .outline-table tbody tr:last-child td:first-child {
+      border-radius: 0 0 0 8px;
+    }
+
+    .outline-table tbody tr:last-child td:last-child {
+      border-radius: 0 0 8px 0;
+    }
+
+    .stage-pill {
+      display: inline-block;
+      font-size: var(--small-size);
+      font-weight: 700;
+      padding: 0.22em 0.75em;
+      border-radius: 100px;
+      white-space: nowrap;
+    }
+
+    .pill-1 {
+      background: rgba(46, 167, 173, 0.15);
+      color: var(--deep-teal);
+    }
+
+    .pill-2 {
+      background: rgba(13, 66, 74, 0.12);
+      color: var(--midnight-teal);
+    }
+
+    .pill-3 {
+      background: rgba(238, 216, 12, 0.18);
+      color: #7a6500;
+    }
+
+    .pill-bonus {
+      background: rgba(94, 150, 149, 0.15);
+      color: var(--sage);
+    }
+
+    /* ===== SLIDE 3: PAIN POINTS ===== */
+    #s3 {
+      background: var(--midnight-teal);
+    }
+
+    .pain-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(0.55rem, 1.3vw, 1rem);
+      max-width: 820px;
+      margin-top: clamp(0.6rem, 1.6vh, 1.3rem);
+    }
+
+    .pain-card {
+      background: rgba(255, 255, 255, 0.055);
+      border: 1px solid rgba(88, 200, 207, 0.18);
+      border-radius: 10px;
+      padding: clamp(0.7rem, 1.6vw, 1.2rem);
+    }
+
+    .pain-card-head {
+      font-size: var(--small-size);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--solar-yellow);
+      margin-bottom: 0.35rem;
+    }
+
+    .pain-card-body {
+      font-size: var(--body-size);
+      color: var(--mist);
+      line-height: 1.55;
+    }
+
+    .pain-card-body strong {
+      color: var(--off-white);
+      font-weight: 500;
+    }
+
+    .confident-bar {
+      max-width: 820px;
+      margin-top: clamp(0.7rem, 1.8vh, 1.4rem);
+      background: rgba(46, 167, 173, 0.18);
+      border-left: 3px solid var(--deep-teal);
+      border-radius: 0 8px 8px 0;
+      padding: clamp(0.6rem, 1.4vw, 1rem) clamp(0.9rem, 2vw, 1.5rem);
+      font-size: var(--body-size);
+      color: var(--sky-cyan);
+      line-height: 1.5;
+    }
+
+    .confident-bar strong {
+      color: var(--off-white);
+    }
+
+    /* ===== SLIDE 4: PHASE 1 ===== */
+    #s4 {
+      background: var(--off-white);
+    }
+
+    .phase-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--midnight-teal);
+      color: var(--solar-yellow);
+      font-size: var(--small-size);
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.3em 0.85em;
+      border-radius: 100px;
+      margin-bottom: clamp(0.5rem, 1.2vh, 1rem);
+      align-self: flex-start;
+    }
+
+    .deepdive-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: clamp(0.55rem, 1.3vw, 1rem);
+      max-width: 840px;
+      margin-top: clamp(0.6rem, 1.6vh, 1.2rem);
+    }
+
+    .dd-card {
+      background: white;
+      border-radius: 10px;
+      padding: clamp(0.75rem, 1.8vw, 1.3rem);
+      border-top: 3px solid var(--deep-teal);
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .dd-card-step {
+      font-size: var(--small-size);
+      font-weight: 700;
+      color: var(--deep-teal);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .dd-card-title {
+      font-size: var(--body-size);
+      font-weight: 700;
+      color: var(--midnight-teal);
+      line-height: 1.3;
+    }
+
+    .dd-card-body {
+      font-size: var(--small-size);
+      color: #555;
+      line-height: 1.5;
+      flex: 1;
+    }
+
+    .fee-pill {
+      display: inline-block;
+      background: var(--midnight-teal);
+      color: var(--off-white);
+      font-size: var(--small-size);
+      font-weight: 500;
+      padding: 0.22em 0.65em;
+      border-radius: 6px;
+      margin-top: 0.3rem;
+      align-self: flex-start;
+    }
+
+    .p1-note {
+      max-width: 840px;
+      margin-top: clamp(0.5rem, 1.3vh, 1rem);
+      font-size: var(--small-size);
+      color: #777;
+      line-height: 1.5;
+    }
+
+    /* ===== SLIDE 5: PHASE 2 / LOI ===== */
+    #s5 {
+      background: var(--abyss);
+    }
+
+    #s5::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(ellipse at 85% 15%, rgba(46, 167, 173, 0.14) 0%, transparent 55%);
+      pointer-events: none;
+    }
+
+    .loi-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(0.55rem, 1.3vw, 1rem);
+      max-width: 800px;
+      margin-top: clamp(0.6rem, 1.6vh, 1.2rem);
+    }
+
+    .loi-card {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(88, 200, 207, 0.2);
+      border-radius: 10px;
+      padding: clamp(0.7rem, 1.7vw, 1.3rem);
+    }
+
+    .loi-card-label {
+      font-size: var(--small-size);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--sky-cyan);
+      margin-bottom: 0.35rem;
+    }
+
+    .loi-card-text {
+      font-size: var(--body-size);
+      color: var(--mist);
+      line-height: 1.55;
+    }
+
+    .loi-card-text strong {
+      color: var(--off-white);
+      font-weight: 500;
+    }
+
+    .loi-sign-bar {
+      max-width: 800px;
+      margin-top: clamp(0.6rem, 1.5vh, 1.2rem);
+      background: rgba(238, 216, 12, 0.1);
+      border: 1px solid rgba(238, 216, 12, 0.3);
+      border-radius: 8px;
+      padding: clamp(0.55rem, 1.3vw, 1rem) clamp(0.9rem, 2vw, 1.4rem);
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .loi-sign-icon {
+      font-size: clamp(1rem, 2vw, 1.4rem);
+      flex-shrink: 0;
+    }
+
+    .loi-sign-text {
+      font-size: var(--body-size);
+      color: var(--solar-yellow);
+      line-height: 1.4;
+    }
+
+    .loi-sign-text strong {
+      font-weight: 700;
+    }
+
+    /* ===== SLIDE 6: PHASE 3 ===== */
+    #s6 {
+      background: var(--midnight-teal);
+    }
+
+    #s6::before {
+      content: '';
+      position: absolute;
+      bottom: -20%;
+      right: -10%;
+      width: 55vw;
+      height: 55vw;
+      max-width: 560px;
+      max-height: 560px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(238, 216, 12, 0.07) 0%, transparent 65%);
+    }
+
+    .scale-box {
+      max-width: 780px;
+      background: rgba(255, 255, 255, 0.055);
+      border-radius: 12px;
+      padding: clamp(0.8rem, 2vw, 1.5rem);
+      margin-top: clamp(0.6rem, 1.6vh, 1.2rem);
+      border: 1px solid rgba(238, 216, 12, 0.2);
+    }
+
+    .scale-box-head {
+      font-size: var(--body-size);
+      font-weight: 700;
+      color: var(--solar-yellow);
+      margin-bottom: 0.4rem;
+    }
+
+    .scale-box-body {
+      font-size: var(--body-size);
+      color: var(--mist);
+      line-height: 1.6;
+    }
+
+    .scale-box-body strong {
+      color: var(--off-white);
+    }
+
+    .scale-examples {
+      list-style: none;
+      margin-top: clamp(0.6rem, 1.5vh, 1.2rem);
+      display: flex;
+      flex-direction: column;
+      gap: clamp(0.35rem, 0.9vh, 0.7rem);
+      max-width: 640px;
+    }
+
+    .scale-examples li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.65rem;
+      font-size: var(--body-size);
+      color: var(--mist);
+      line-height: 1.4;
+    }
+
+    .scale-examples li::before {
+      content: '→';
+      color: var(--solar-yellow);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    /* ===== SLIDE 7: CLOSE ===== */
+    #s7 {
+      background: var(--off-white);
+      align-items: flex-start;
+    }
+
+    .close-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(0.8rem, 2vw, 1.8rem);
+      max-width: 820px;
+      margin-top: clamp(0.6rem, 1.6vh, 1.3rem);
+    }
+
+    .close-card {
+      background: white;
+      border-radius: 10px;
+      padding: clamp(0.8rem, 2vw, 1.4rem);
+      border-top: 3px solid var(--deep-teal);
+    }
+
+    .close-card-num {
+      font-size: clamp(1.3rem, 2.5vw, 2rem);
+      font-weight: 700;
+      color: var(--deep-teal);
+      line-height: 1;
+      margin-bottom: 0.3rem;
+    }
+
+    .close-card-title {
+      font-size: var(--body-size);
+      font-weight: 700;
+      color: var(--midnight-teal);
+      margin-bottom: 0.3rem;
+    }
+
+    .close-card-body {
+      font-size: var(--small-size);
+      color: #555;
+      line-height: 1.5;
+    }
+
+    .close-bottom {
+      max-width: 820px;
+      margin-top: clamp(0.6rem, 1.6vh, 1.2rem);
+      padding: clamp(0.6rem, 1.4vw, 1rem) clamp(0.9rem, 2vw, 1.5rem);
+      background: var(--midnight-teal);
+      border-radius: 8px;
+      font-size: var(--body-size);
+      color: var(--mist);
+      line-height: 1.5;
+    }
+
+    .close-bottom strong {
+      color: var(--solar-yellow);
+    }
+
+    /* Responsive */
+    @media (max-height: 700px) {
+      :root {
+        --slide-padding: clamp(1rem, 3vw, 2.5rem);
+        --h2-size: clamp(1rem, 2.5vw, 1.7rem);
+        --body-size: clamp(0.72rem, 1.2vw, 0.9rem);
+      }
+    }
+
+    @media (max-height: 600px) {
+      :root {
+        --slide-padding: clamp(0.8rem, 2.5vw, 1.5rem);
+        --h2-size: clamp(0.9rem, 2vw, 1.4rem);
+        --body-size: clamp(0.68rem, 1.1vw, 0.85rem);
+      }
+
+      .nav-dots,
+      .slide-counter {
+        display: none;
+      }
+    }
+
+    @media (max-width: 640px) {
+
+      .pain-grid,
+      .deepdive-grid,
+      .loi-grid,
+      .close-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .deepdive-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="nav-dots" id="navDots"></div>
+  <div class="slide-counter" id="slideCounter"></div>
+
+  <!-- ===== SLIDE 1: COVER ===== -->
+  <section class="slide" id="s1">
+    <div class="slide-inner">
+      <div class="cover-lockup">
+        <div class="eyebrow reveal">Partnership Proposal</div>
+        <h1 class="cover-title reveal d1">Mirtech <span>×</span> illumi</h1>
+        <p class="cover-sub reveal d2">From fragmented AI workflow to a product you own and scale</p>
+        <div class="cover-rule reveal d3"></div>
+        <div class="cover-meta reveal d4">
+          <div class="cover-meta-item">
+            <span class="cml">Presented by</span>
+            <span class="cmv">Ling Chang, CPO · illumi</span>
+          </div>
+          <div class="cover-meta-item">
+            <span class="cml">Structure</span>
+            <span class="cmv">3 Phases + Bonus</span>
+          </div>
+          <div class="cover-meta-item">
+            <span class="cml">Goal today</span>
+            <span class="cmv">Align the direction of collabaortion</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SLIDE 3: PAIN POINTS ===== -->
+  <section class="slide" id="s3">
+    <div class="slide-inner">
+      <div class="eyebrow eyebrow-light reveal">What we see</div>
+      <h2 class="heading-light reveal d1">Your workflow has <em>outgrown</em> the tools running it.</h2>
+      <div class="pain-grid">
+        <div class="pain-card reveal d2">
+          <div class="pain-card-head">Context collapse</div>
+          <div class="pain-card-body">Every tool switch means <strong>re-explaining from scratch.</strong> Claude,
+            Gemini, GPT — each conversation starts cold. The knowledge your team built disappears between steps.</div>
+        </div>
+        <div class="pain-card reveal d3">
+          <div class="pain-card-head">Non-linear work, linear tools</div>
+          <div class="pain-card-body">One topic branches into <strong>5 angles × 5 audiences × 5 formats.</strong> No
+            tool holds that tree. You're managing the structure in your head and across tabs.</div>
+        </div>
+        <div class="pain-card reveal d4">
+          <div class="pain-card-head">Human review without a home</div>
+          <div class="pain-card-body">Every stage needs a judgment call before moving forward. But <strong>the tools
+              don't support that rhythm.</strong> Review happens around the workflow, not inside it.</div>
+        </div>
+        <div class="pain-card reveal d5">
+          <div class="pain-card-head">Copy-paste as infrastructure</div>
+          <div class="pain-card-body">The handoff between steps is manual. <strong>That's not a process gap — it's a
+              ceiling.</strong> It limits how fast your team can scale and how much you can delegate.</div>
+        </div>
+      </div>
+      <div class="confident-bar reveal d6">
+        <strong>We've seen this pattern enough to have named it.</strong> illumi is built specifically for branching,
+        context-heavy, human-reviewed content workflows. We're confident we can fix this.
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SLIDE 2: STAGE OUTLINE ===== -->
+  <section class="slide" id="s2">
+    <div class="slide-inner">
+      <div class="eyebrow reveal">The plan</div>
+      <h2 class="heading-dark reveal d1">Three phases. One <em>compounding</em> partnership.</h2>
+      <table class="outline-table reveal d2">
+        <thead>
+          <tr>
+            <th>Phase</th>
+            <th>What happens</th>
+            <th>Mirtech commits</th>
+            <th>Mirtech gets</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="stage-pill pill-1">Phase 1</span><br><span
+                style="font-size:var(--small-size);color:#888;">3 months</span></td>
+            <td>illumi-led problem statement deep dive. We map your workflow, define the freature gaps, scope the build.
+            </td>
+            <td>Access + feedback sessions</td>
+            <td>Purpose-built features to support the workflow. Potential Dev fee involved.</td>
+          </tr>
+          <tr>
+            <td><span class="stage-pill pill-2">Phase 2</span><br><span
+                style="font-size:var(--small-size);color:#888;">Post deep dive</span></td>
+            <td>Scope agreed → LOI signed for after project commitment. Pilot build begins. Mirtech tests first against
+              criteria set in Phase 1.</td>
+            <td>LOI signed on agreed scope</td>
+            <td>Design partner rate for commited period.</td>
+          </tr>
+          <tr>
+            <td><span class="stage-pill pill-3">Phase 3</span><br><span
+                style="font-size:var(--small-size);color:#888;">Post Pilot</span></td>
+            <td>Partner discounted team subscription. Joint case study.</td>
+            <td>Subscription commitment</td>
+            <td>Design partner discount. Co-sell opportunities.</td>
+          </tr>
+          <tr>
+            <td><span class="stage-pill" style="background:rgba(238,216,12,0.18);color:#7a6500;">Phase 4</span><br><span
+                style="font-size:var(--small-size);color:#888;">When ready</span></td>
+            <td>Mirtech packages the proven workflow to resell to clients and marketers.</td>
+            <td>Go-to-market collaboration</td>
+            <td>New revenue stream. You keep what you earn.</td>
+          </tr>
+          <tr>
+            <td><span class="stage-pill pill-bonus">Bonus</span></td>
+            <td>Co-sell or integration with Jensi — explored once foundation is set.</td>
+            <td>Open discussion</td>
+            <td>Audience overlap leverage</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+
+  <!-- ===== SLIDE 4: PHASE 1 ===== -->
+  <section class="slide" id="s4">
+    <div class="slide-inner">
+      <div class="phase-badge reveal">Phase 1 · 3 months</div>
+      <h2 class="heading-dark reveal d1">We run the <em>deep dive.</em><br>You don't have to brief us twice.</h2>
+      <div class="deepdive-grid">
+        <div class="dd-card reveal d2">
+          <div class="dd-card-step">Step 01</div>
+          <div class="dd-card-title">Problem statement session</div>
+          <div class="dd-card-body">illumi leads a structured diagnostic: workflow map, tool audit, handoff breakdown,
+            friction inventory.</div>
+        </div>
+        <div class="dd-card reveal d3">
+          <div class="dd-card-step">Step 02</div>
+          <div class="dd-card-title">Feature definition</div>
+          <div class="dd-card-body">We translate findings into 2–3 scoped features built for Mirtech's exact content
+            structure. Monthly feedback sessions. </div>
+        </div>
+        <div class="dd-card reveal d4">
+          <div class="dd-card-step">Step 03</div>
+          <div class="dd-card-title">Build + validate</div>
+          <div class="dd-card-body">Priority roadmap access. Mirtech tests first. </div>
+        </div>
+      </div>
+      <p class="p1-note reveal d5">Deliverable at end of Phase 1: a working illumi workflow purpose-built for Mirtech's
+        content structure, plus a scoped feature roadmap agreed by both sides.</p>
+    </div>
+  </section>
+
+  <!-- ===== SLIDE 5: PHASE 2 / LOI ===== -->
+  <section class="slide" id="s5">
+    <div class="slide-inner">
+      <div class="phase-badge reveal" style="background: rgba(46,167,173,0.2); color: var(--sky-cyan);">Phase 2 · Post
+        deep dive · LOI on agreed scope</div>
+      <h2 class="heading-light reveal d1">Scope agreed.<br>We <em>formalise it</em> and build.</h2>
+      <div class="loi-grid">
+        <div class="loi-card reveal d2">
+          <div class="loi-card-label">What triggers the LOI</div>
+          <div class="loi-card-text">The deep dive is done. Scope is defined. Both sides agree on what is being built
+            and what success looks like. <strong>Then we sign.</strong></div>
+        </div>
+        <div class="loi-card reveal d3">
+          <div class="loi-card-label">What the LOI covers</div>
+          <div class="loi-card-text">Pilot success criteria, build scope, and Mirtech's <strong>commitment to the
+              agreed scope</strong> for the pilot period.</div>
+        </div>
+        <div class="loi-card reveal d4">
+          <div class="loi-card-label">Pilot build begins</div>
+          <div class="loi-card-text">Mirtech tests first against criteria set in Phase 1. <strong>You define what
+              success looks like</strong> — we build to meet it.</div>
+        </div>
+        <div class="loi-card reveal d5">
+          <div class="loi-card-label">What it is not</div>
+          <div class="loi-card-text">Not a binding purchase order. <strong>Intent, not obligation.</strong> If the pilot
+            does not hit criteria, we renegotiate together — not unilaterally.</div>
+        </div>
+      </div>
+      <div class="loi-sign-bar reveal d6">
+        <div class="loi-sign-icon">✦</div>
+        <div class="loi-sign-text"><strong>The sequence:</strong> deep dive first → scope agreed → LOI signed → build
+          begins. No LOI before both sides know what they are committing to.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SLIDE 6: PHASE 3 ===== -->
+  <section class="slide" id="s6">
+    <div class="slide-inner">
+      <div class="phase-badge reveal" style="background: rgba(238,216,12,0.15); color: var(--solar-yellow);">Phase 3 ·
+        Post Pilot · Subscription</div>
+      <h2 class="heading-light reveal d1">Pilot proven.<br>Now we make it <em>official.</em></h2>
+      <div class="scale-box reveal d2">
+        <div class="scale-box-head">What Phase 3 looks like</div>
+        <div class="scale-box-body">
+          The pilot is done. Criteria met. Mirtech converts to a team subscription at the <strong>design partner
+          rate</strong> — a reflection of the input you provided in shaping the product. We co-author a case study
+          together, published with your approval. And co-sell opportunities open as your use case becomes a reference.
+        </div>
+      </div>
+      <ul class="scale-examples">
+        <li class="reveal d3">Design partner discount applied to your team subscription rate</li>
+        <li class="reveal d4">Joint case study — published with your approval, owned by both sides</li>
+        <li class="reveal d5">Co-sell opportunities as Mirtech's workflow becomes a reference for others</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===== SLIDE 7: NEXT STEPS ===== -->
+  <section class="slide" id="s7">
+    <div class="slide-inner">
+      <div class="eyebrow reveal">What happens next</div>
+      <h2 class="heading-dark reveal d1">Three moves. Starting <em>today.</em></h2>
+      <div class="close-grid">
+        <div class="close-card reveal d2">
+          <div class="close-card-num">01</div>
+          <div class="close-card-title">Agree to start Phase 1</div>
+          <div class="close-card-body">Confirm the deep dive engagement and Phase 1 fee range. illumi leads the
+            diagnostic session.</div>
+        </div>
+        <div class="close-card reveal d3">
+          <div class="close-card-num">02</div>
+          <div class="close-card-title">Schedule the deep dive</div>
+          <div class="close-card-body">illumi brings the framework. Mirtech brings the workflow reality. One structured
+            session to map everything.</div>
+        </div>
+        <div class="close-card reveal d4">
+          <div class="close-card-num">03</div>
+          <div class="close-card-title">Agree scope → sign LOI</div>
+          <div class="close-card-body">After the deep dive, both sides agree on scope and success criteria. Then we sign
+            the Phase 2 LOI and build begins.</div>
+        </div>
+        <div class="close-card reveal d5">
+          <div class="close-card-num">+</div>
+          <div class="close-card-title">Jensi &amp; co-sell</div>
+          <div class="close-card-body">We're interested. Let's table it for after Phase 1 — when the foundation is solid
+            enough to build on.</div>
+        </div>
+      </div>
+      <div class="close-bottom reveal d6">
+        <strong>The goal today:</strong> leave this call with Phase 1 agreed and the deep dive booked. LOI follows once
+        we both know what we're signing.
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    const navDotsEl = document.getElementById('navDots');
+    const counterEl = document.getElementById('slideCounter');
+    const total = slides.length;
+
+    slides.forEach((_, i) => {
+      const d = document.createElement('button');
+      d.className = 'nav-dot' + (i === 0 ? ' active' : '');
+      d.setAttribute('aria-label', `Slide ${i + 1}`);
+      d.addEventListener('click', () => slides[i].scrollIntoView({ behavior: 'smooth' }));
+      navDotsEl.appendChild(d);
+    });
+
+    const dots = document.querySelectorAll('.nav-dot');
+
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          const i = Array.from(slides).indexOf(e.target);
+          dots.forEach((d, j) => d.classList.toggle('active', j === i));
+          counterEl.textContent = `${i + 1} / ${total}`;
+        }
+      });
+    }, { threshold: 0.6 });
+
+    slides.forEach(s => obs.observe(s));
+
+    document.addEventListener('keydown', e => {
+      const cur = Array.from(slides).findIndex(s => s.classList.contains('visible'));
+      if ((e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === ' ') && cur < total - 1) {
+        e.preventDefault();
+        slides[cur + 1].scrollIntoView({ behavior: 'smooth' });
+      }
+      if ((e.key === 'ArrowUp' || e.key === 'ArrowLeft') && cur > 0) {
+        e.preventDefault();
+        slides[cur - 1].scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+
+    slides[0].classList.add('visible');
+  </script>
+</body>
+
+</html>
